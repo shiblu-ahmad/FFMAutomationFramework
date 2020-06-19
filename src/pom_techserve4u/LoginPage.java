@@ -1,4 +1,4 @@
-package pom;
+package pom_techserve4u;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
