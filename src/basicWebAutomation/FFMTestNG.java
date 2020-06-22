@@ -24,7 +24,7 @@ public class FFMTestNG {
     }
 
     @Test
-    public void testUntitledTestCase() throws Exception {
+    public void testUntitledTestCase() throws InterruptedException {
         driver.get(baseUrl);
         driver.findElement(By.id("login")).click();
         driver.findElement(By.id("login")).clear();
@@ -39,7 +39,19 @@ public class FFMTestNG {
         driver.findElement(By.name("firstName")).sendKeys("Pranto");
         driver.findElement(By.name("lastName")).click();
         driver.findElement(By.name("lastName")).clear();
-        driver.findElement(By.name("lastName")).sendKeys("Mazumder");
+        //  driver.findElement(By.name("lastName")).sendKeys("");
+        WebElement lastName = driver.findElement(By.name("lastName"));
+        lastName.sendKeys("");
+        String validationMessage = lastName.getAttribute("validationMessage");
+
+
+        boolean required = Boolean.parseBoolean(lastName.getAttribute("required"));
+
+        boolean valid = (Boolean) ((JavascriptExecutor) driver).executeScript("return arguments[0].validity.valid;", lastName);
+        if (required) {
+            //element is required and validation error will popup if the field is empty.
+        }
+
         driver.findElement(By.name("email")).click();
         driver.findElement(By.name("email")).clear();
         driver.findElement(By.name("email")).sendKeys("pranto.mazumder@gmail.com");

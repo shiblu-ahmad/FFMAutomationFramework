@@ -1,22 +1,33 @@
+package techserve4u_Web_Automation;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import pom_techserve4u.AddCompanies;
+import org.testng.annotations.Test;
 import pom_techserve4u.LoginPage;
+import pom_techserve4u.LogoutPage;
 
 import java.util.concurrent.TimeUnit;
 
-public class FFMAddCompany {
-    WebDriver driver;
-    AddCompanies objAddCompany;
-    LoginPage objLogin;
+/*
+ * Created a project
+ * Added selenium jars
+ * Added testNG jar
+ * Created a package for POM
+ * Created classes for each page add "all the elements" under POM package
+ * Added testNG annotations and methods
+ * Put assertion on login and logout method
+ */
 
-
+public class FFMLoginLogout {
     String baseUrl = "https://ffm.techserve4u.com/";
     String driverPath = "F:\\Selenium\\Driver\\geckodriver.exe";
+    WebDriver driver;
+    LoginPage objLogin;
+    LogoutPage objLogout;
 
     @BeforeTest
     public void setup() {
@@ -29,9 +40,10 @@ public class FFMAddCompany {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         driver.get(baseUrl);
+
     }
 
-    @org.testng.annotations.Test(priority = 1)
+    @Test(priority = 1)
     public void login() throws InterruptedException {
         objLogin = new LoginPage(driver);
         objLogin.setEmailField("superadmin@email.com");
@@ -53,20 +65,25 @@ public class FFMAddCompany {
 
     }
 
-
-    @org.testng.annotations.Test(priority = 2)
-    public void AddCompany() throws InterruptedException {
-
-        objAddCompany = new AddCompanies(driver);
-        objAddCompany.addCompany("Pranto Company1", "Dhaka,Bangladesh", "E:\\FFM\\Upload PDF file\\TERM-PAPER-EXAMPLE.pdf",
-                "E:\\FFM\\Upload PDF file\\TERM-PAPER-EXAMPLE.pdf", 65465465);
-        Thread.sleep(5000);
-
+    @Test(priority = 2)
+    public void logout() {
+        objLogout = new LogoutPage(driver);
+        objLogout.logOut();
 
     }
 
     @AfterTest
-    public void driverQuit() {
+    public void quitBrowser() throws InterruptedException {
+        String ffmActualPageTitle = driver.getTitle();
+        String ffmExpectedTitle = "Field Force Management";
+        Thread.sleep(5000);
+        driver.quit();
+        if (ffmActualPageTitle.equals(ffmExpectedTitle)) {
+            System.out.println("Logout Assertion Passed!");
+        } else {
+            System.out.println("Logout Assertion Failed");
+        }
 
     }
+
 }
