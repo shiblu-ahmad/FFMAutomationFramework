@@ -74,15 +74,26 @@ public class FFMLoginLogout {
 
     @AfterTest
     public void quitBrowser() throws InterruptedException {
-        String ffmActualPageTitle = driver.getTitle();
-        String ffmExpectedTitle = "Field Force Management";
+        Thread.sleep(5000);
+        String loginPageActualTitle = "FFM Admin Panel";
+        WebElement loginPageExpectedAssertion = driver.findElement(By.xpath("/html/body/div/div/div/div/div/h3"));
+        String getAssertionText = loginPageExpectedAssertion.getText();
+
+
+        if (loginPageActualTitle.equals(getAssertionText)) {
+            System.out.println("Logout Assertion Passed!");
+        } else {
+            System.out.println("Logout Assertion Failed");
+        }
+        driver.quit();
+       /* String ffmExpectedTitle = "FFM Admin Panel";
         Thread.sleep(5000);
         driver.quit();
         if (ffmActualPageTitle.equals(ffmExpectedTitle)) {
             System.out.println("Logout Assertion Passed!");
         } else {
             System.out.println("Logout Assertion Failed");
-        }
+        }*/
 
     }
 
